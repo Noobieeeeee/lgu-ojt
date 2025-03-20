@@ -588,5 +588,7 @@ def api_search():
     conn.close()
     return jsonify({'entries': entries})
 
+# Remove or modify the if __name__ == '__main__': block at the end
 if __name__ == '__main__':
+    # For development only
     app.run(host='0.0.0.0', debug=True, port=5000) 

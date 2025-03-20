@@ -1,0 +1,19 @@
+2025/03/20 16:18:36 [error] 4772#5896: *1 CreateFile() "C:\Users\user\PycharmProjects\entry_system\serverFile\nginx-1.26.3/html/favicon.ico" failed (2: The system cannot find the file specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2025/03/20 16:25:19 [warn] 656#3968: "user" is not supported, ignored in C:\Users\user\PycharmProjects\entry_system\serverFile\nginx-1.26.3/conf/nginx.conf:2
+2025/03/20 16:25:19 [warn] 2496#6076: "user" is not supported, ignored in C:\Users\user\PycharmProjects\entry_system\serverFile\nginx-1.26.3/conf/nginx.conf:2
+2025/03/20 16:26:31 [warn] 10592#2992: "user" is not supported, ignored in C:\Users\user\PycharmProjects\entry_system\serverFile\nginx-1.26.3/conf/nginx.conf:2
+2025/03/20 16:26:31 [notice] 10592#2992: signal process started
+2025/03/20 16:26:31 [warn] 7364#10468: "user" is not supported, ignored in C:\Users\user\PycharmProjects\entry_system\serverFile\nginx-1.26.3/conf/nginx.conf:2
+2025/03/20 16:27:28 [notice] 6060#2108: signal process started
+2025/03/20 16:27:53 [notice] 6704#5540: signal process started
+2025/03/20 16:30:41 [notice] 6340#7440: signal process started
+2025/03/20 16:34:32 [notice] 11236#2028: signal process started
+2025/03/20 16:36:31 [notice] 6044#9464: signal process started
+2025/03/20 16:39:07 [notice] 11468#2116: signal process started
+2025/03/20 16:39:56 [notice] 12068#12268: signal process started
+2025/03/20 16:40:23 [notice] 11472#9572: signal process started
+2025/03/20 16:41:03 [notice] 3588#11408: signal process started
+2025/03/20 16:41:06 [notice] 7628#7560: signal process started
+2025/03/20 16:45:16 [notice] 7456#11424: signal process started
+2025/03/20 16:47:01 [notice] 9076#10536: signal process started
+2025/03/20 16:48:12 [notice] 11208#10736: signal process started
