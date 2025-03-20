@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DB Manager - Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-icons@latest/dist/umd/lucide.min.css">
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <style>
+    /* Add these styles to prevent scrolling and ensure proper layout */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-container {
+      height: 100vh;
+      display: flex;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .dashboard-grid {
+      height: 100%;
+      overflow-y: auto;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="menu-text">Menu</span>
+        <button class="sidebar-toggle">
+          <span class="chevron-left"></span>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('dashboard') }}" class="sidebar-item active">
+          <span class="icon dashboard-icon"></span>
+          <span class="sidebar-text">Dashboard</span>
+        </a>
+        <a href="{{ url_for('database') }}" class="sidebar-item">
+          <span class="icon database-icon"></span>
+          <span class="sidebar-text">Database</span>
+        </a>
+        <a href="{{ url_for('accounts') }}" class="sidebar-item">
+          <span class="icon users-icon"></span>
+          <span class="sidebar-text">Accounts</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="footer-text">© 2025 DBManager v1.0</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-container">
+      <!-- Header -->
+      <header class="header">
+        <h1 class="logo"><span class="logo-accent">DB</span>Manager</h1>
+        <div class="header-actions">
+          <div class="user-info">
+            <span>Hello, <strong>{{ session.enduser }}</strong></span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+              <span class="icon logout-icon"></span>
+              <span>Logout</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="content">
+        <!-- Dashboard Section -->
+        <!-- <section id="dashboard" class="section active">
+          <div class="section-header">
+            <h1>Dashboard</h1>
+            <p>Manage your journal entries and view analytics</p>
+          </div> -->
+          
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          
+          <div class="dashboard-grid">
+            <div class="data-entry-form glass-card">
+              <h2>New Journal Entry</h2>
+              <form class="entry-form" action="{{ url_for('submit_entry') }}" method="POST">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="jev">JEV (Journal Entry Voucher)</label>
+                    <input type="text" id="jev" name="jev" class="input-field" 
+                           placeholder="e.g. 2023-0009" 
+                           pattern="\d{4}-\d{5}"
+                           title="Format: YYYY-XXXXX"
+                           required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="payee">Payee</label>
+                    <input type="text" id="payee" name="payee" class="input-field" 
+                           placeholder="Enter payee name" 
+                           minlength="2"
+                           maxlength="100"
+                           required>
+                  </div>
+                </div>
+                
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="obligationRequest">Obligation Request #</label>
+                    <input type="text" id="obligationRequest" name="obligationRequest" 
+                           class="input-field" placeholder="e.g. 2025-01-0413" 
+                           pattern="\d{4}-\d{2}-\d{4}"
+                           title="Format: YYYY-MM-XXXX" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="accountsPayable">Accounts Payable</label>
+                    <input type="text" id="accountsPayable" name="accountsPayable" 
+                           class="input-field" placeholder="e.g. 401-0003"
+                           pattern="\d{3}-\d{4}"
+                           title="Format: XXX-XXXX">
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="particulars">Particulars</label>
+                  <textarea id="particulars" name="particulars" class="input-field" placeholder="Description of the transaction" required></textarea>
+                </div>
+                
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" class="input-field" placeholder="0.00" step="0.01" min="0" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="entryDate">Entry Date</label>
+                    <input type="date" id="entryDate" name="entryDate" class="input-field" required>
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn-primary">Submit Entry</button>
+              </form>
+            </div>
+            
+            <div class="analytics-card glass-card">
+              <h2>Analytics Overview</h2>
+              
+              <div class="analytics-items">
+                <div class="analytics-item">
+                  <div class="analytics-icon-wrapper">
+                    <span class="icon calendar-icon"></span>
+                  </div>
+                  <span class="analytics-title">Inputs This Month</span>
+                  <div class="analytics-value-container">
+                    <span class="analytics-value">{{ analytics.inputs_this_month }}</span>
+                    <span class="analytics-trend {% if analytics.inputs_change >= 0 %}up{% else %}down{% endif %}">
+                      {% if analytics.inputs_change >= 0 %}+{% endif %}{{ analytics.inputs_change }}% from last month
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="analytics-item">
+                  <div class="analytics-icon-wrapper">
+                    <span class="icon database-icon"></span>
+                  </div>
+                  <span class="analytics-title">Total Inputs</span>
+                  <div class="analytics-value-container">
+                    <span class="analytics-value">{{ analytics.total_inputs }}</span>
+                  </div>
+                </div>
+                
+                <div class="analytics-item">
+                  <div class="analytics-icon-wrapper">
+                    <span class="icon calculator-icon"></span>
+                  </div>
+                  <span class="analytics-title">Total Amount This Month</span>
+                  <div class="analytics-value-container">
+                    <span class="analytics-value">₱{{ "%.2f"|format(analytics.total_amount) }}</span>
+                    <span class="analytics-trend {% if analytics.amount_change >= 0 %}up{% else %}down{% endif %}">
+                      {% if analytics.amount_change >= 0 %}+{% endif %}{{ analytics.amount_change }}% from last month
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="analytics-item">
+                  <div class="analytics-icon-wrapper">
+                    <span class="icon chart-icon"></span>
+                  </div>
+                  <span class="analytics-title">Last JEV</span>
+                  <div class="analytics-value-container">
+                    <span class="analytics-value">{{ analytics.last_jev }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- <div class="progress-section">
+                <div class="progress-container">
+                  <div class="progress-bar" style="width: 70%"></div>
+                  <div class="progress-text">Monthly Progress: 70%</div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Simple no-JS sidebar toggle using CSS checkbox hack -->
+  <input type="checkbox" id="sidebar-toggle-checkbox" class="hidden">
+  <label for="sidebar-toggle-checkbox" class="sidebar-toggle-label"></label>
+</body>
+</html> 

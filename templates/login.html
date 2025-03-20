@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DB Manager - Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Include Font Awesome for line-art icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <h1><span class="logo-accent"> OMA DB</span>Manager</h1>
+        <p>Please login to your account.</p>
+      </div>
+      
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      
+      <form class="login-form" action="{{ url_for('login') }}" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" name="username" required 
+                   placeholder="Enter your username">
+            <!-- Use Font Awesome line-art icon for user -->
+            <span class="input-icon"><i class="fas fa-user"></i></span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" required 
+                   placeholder="Enter your password">
+            <!-- Use Font Awesome line-art icon for lock -->
+            <span class="input-icon"><i class="fas fa-lock"></i></span>
+          </div>
+        </div>
+        
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
