@@ -79,7 +79,22 @@ def dashboard():
     total_entries = conn.execute('SELECT COUNT(*) as count FROM entry').fetchone()
     
     # Get last JEV
-    last_jev = conn.execute('SELECT JEV FROM entry ORDER BY "Date Entry" DESC LIMIT 1').fetchone()
+    last_jev = conn.execute('''
+        SELECT JEV, "Date Entry" 
+        FROM entry 
+        ORDER BY "Date Entry" DESC, JEV DESC 
+        LIMIT 1
+    ''').fetchone()
+    
+    # Format the last JEV data
+    last_jev_display = 'No entries yet'
+    if last_jev:
+        try:
+            date_entry = datetime.strptime(last_jev['Date Entry'], '%Y-%m-%d %H:%M:%S')
+            formatted_date = date_entry.strftime('%Y-%m-%d')
+            last_jev_display = f"{last_jev['JEV']} ({formatted_date})"
+        except (ValueError, TypeError):
+            last_jev_display = last_jev['JEV']
     
     conn.close()
     
@@ -96,7 +111,7 @@ def dashboard():
         'inputs_this_month': current_month_data['count'],
         'total_inputs': total_entries['count'],
         'total_amount': current_month_data['total_amount'],
-        'last_jev': last_jev['JEV'] if last_jev else 'No entries yet',
+        'last_jev': last_jev_display,
         'inputs_change': round(inputs_change, 1),
         'amount_change': round(amount_change, 1)
     }

@@ -112,11 +112,12 @@
                   <div class="form-group">
                     <label for="jev">JEV (Journal Entry Voucher)</label>
                     <input type="text" id="jev" name="jev" class="input-field" 
-                           placeholder="e.g. 2023-0009" 
-                           pattern="\d{4}-\d{5}"
-                           title="Format: YYYY-XXXXX"
+                           placeholder="e.g. 2023-20009" 
                            required>
                   </div>
+<!-- 
+                  pattern="\d{4}-\d{5}"
+                  title="Format: YYYY-XXXXX" -->
                   
                   <div class="form-group">
                     <label for="payee">Payee</label>
@@ -213,7 +214,7 @@
                   </div>
                   <span class="analytics-title">Last JEV</span>
                   <div class="analytics-value-container">
-                    <span class="analytics-value">{{ analytics.last_jev }}</span>
+                    <span class="analytics-value" style="font-size: 0.9em;">{{ analytics.last_jev }}</span>
                   </div>
                 </div>
               </div>
